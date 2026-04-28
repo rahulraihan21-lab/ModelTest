@@ -15,18 +15,25 @@
         .submit-btn { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         #admit-container { display: none; width: 100%; } 
-        .board-admit { width: 1000px; height: 600px; background: #fff; border: 3px double #000; padding: 20px; margin: 0 auto; box-sizing: border-box; color: #000; }
+        .board-admit { width: 1050px; height: 650px; background: #fff; border: 3px double #000; padding: 20px; margin: 0 auto; box-sizing: border-box; color: #000; }
         .inner-border { border: 1px solid #000; height: 100%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; }
         .header-section { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-        .header-section h1 { margin: 0; font-size: 45px; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 5px; }
+        .header-section h1 { margin: 0; font-size: 40px; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 5px; }
         .header-section .test-title { font-size: 18px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
+        
         .content-grid { display: grid; grid-template-columns: 1fr 180px; gap: 20px; flex-grow: 1; }
         .info-table { width: 100%; border-collapse: collapse; }
         .info-table td { border: 1px solid #000; padding: 10px; font-size: 17px; }
         .info-table .label { font-weight: bold; width: 35%; }
         .info-table .value { font-family: 'Courier New', Courier, monospace; }
         .photo-box { border: 1px solid #000; height: 180px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; }
-        .footer-sigs { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; }
+        
+        /* Rules Section CSS Added Back */
+        .rules-section { border-top: 1px dashed #000; margin-top: 20px; padding-top: 15px; }
+        .rules-section h4 { margin: 0 0 10px 0; text-decoration: underline; font-size: 15px; }
+        .rules-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.6; }
+
+        .footer-sigs { display: flex; justify-content: space-between; margin-top: auto; padding-top: 30px; }
         .signature { border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: bold; }
 
         @media print {
@@ -67,9 +74,18 @@
                             <tr><td class="label">Student ID</td><td class="value" id="out-id"></td></tr>
                             <tr><td class="label">Roll Number</td><td class="value" id="out-roll" style="font-weight: bold; font-size: 20px;"></td></tr>
                         </table>
-                        <div style="margin-top: 15px; font-size: 13px;">
-                            <strong>Instructions:</strong> Must report on time. Admit Card is mandatory. No electronic devices.
+                        
+                        <div class="rules-section">
+                            <h4>General Instructions for Candidates:</h4>
+                            <ol class="rules-list">
+                                <li>Candidates must report to the examination center strictly on time. No delays will be allowed.</li>
+                                <li>The original Admit Card must be brought to the exam hall.</li>
+                                <li>Mobile phones, smartwatches, or any electronic devices are strictly prohibited.</li>
+                                <li>Use only black or blue ballpoint pens.</li>
+                                <li>Any adoption of unfair means will lead to immediate expulsion.</li>
+                            </ol>
                         </div>
+
                     </div>
                     <div class="photo-side"><div class="photo-box">Passport Size<br>Photo</div></div>
                 </div>
@@ -85,6 +101,8 @@
         document.getElementById('studentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             document.getElementById('subBtn').disabled = true;
+            document.getElementById('subBtn').innerText = 'Processing...';
+            
             const uid = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
             const { data, error } = await sb.from('model_test_students').insert([{ 
@@ -100,9 +118,14 @@
                 document.getElementById('out-class').innerText = s.class_name.toUpperCase();
                 document.getElementById('out-id').innerText = s.student_id;
                 document.getElementById('out-roll').innerText = s.roll_number.toString().padStart(4, '0');
+                
                 document.getElementById('form-ui').style.display = 'none';
                 document.getElementById('admit-container').style.display = 'block'; 
-            } else { alert("Error!"); }
+            } else { 
+                alert("Error! Please try again."); 
+                document.getElementById('subBtn').disabled = false;
+                document.getElementById('subBtn').innerText = 'Generate Admit Card';
+            }
         });
     </script>
 </body>
