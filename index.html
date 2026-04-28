@@ -28,7 +28,6 @@
         .info-table .value { font-family: 'Courier New', Courier, monospace; }
         .photo-box { border: 1px solid #000; height: 180px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; }
         
-        /* Rules Section CSS Added Back */
         .rules-section { border-top: 1px dashed #000; margin-top: 20px; padding-top: 15px; }
         .rules-section h4 { margin: 0 0 10px 0; text-decoration: underline; font-size: 15px; }
         .rules-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.6; }
@@ -51,6 +50,10 @@
         <h2>UBIQUE</h2>
         <p style="font-size: 13px; margin-bottom: 20px;">Model Test 2026 - Official Portal</p>
         <form id="studentForm">
+            <div class="input-group">
+                <label>Roll Number</label>
+                <input type="text" id="in-roll" placeholder="e.g., 0012" required>
+            </div>
             <div class="input-group"><label>Student Name</label><input type="text" id="in-name" required></div>
             <div class="input-group"><label>Class / Session</label><input type="text" id="in-class" required></div>
             <div class="input-group"><label>Mobile Number</label><input type="text" id="in-phone" required></div>
@@ -85,7 +88,6 @@
                                 <li>Any adoption of unfair means will lead to immediate expulsion.</li>
                             </ol>
                         </div>
-
                     </div>
                     <div class="photo-side"><div class="photo-box">Passport Size<br>Photo</div></div>
                 </div>
@@ -106,6 +108,7 @@
             const uid = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
             const { data, error } = await sb.from('model_test_students').insert([{ 
+                roll_number: document.getElementById('in-roll').value, // Manual Roll Input
                 student_name: document.getElementById('in-name').value, 
                 class_name: document.getElementById('in-class').value, 
                 phone_number: document.getElementById('in-phone').value, 
@@ -117,7 +120,7 @@
                 document.getElementById('out-name').innerText = s.student_name.toUpperCase();
                 document.getElementById('out-class').innerText = s.class_name.toUpperCase();
                 document.getElementById('out-id').innerText = s.student_id;
-                document.getElementById('out-roll').innerText = s.roll_number.toString().padStart(4, '0');
+                document.getElementById('out-roll').innerText = s.roll_number; // Show exactly what was typed
                 
                 document.getElementById('form-ui').style.display = 'none';
                 document.getElementById('admit-container').style.display = 'block'; 
