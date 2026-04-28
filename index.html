@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model Test Entry - UBIQUE Cadet Care</title>
+    <title>Model Test Entry - UBIQUE</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* Core Styles */
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f0f0; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         .no-print-section { background: #fff; padding: 35px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         h2 { color: #000; margin-bottom: 25px; border-bottom: 2px solid #000; display: inline-block; }
@@ -14,68 +13,34 @@
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
         input { width: 100%; padding: 10px; border: 1px solid #000; border-radius: 4px; font-size: 15px; }
         .submit-btn { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        
-        /* ADMIT CARD - LANDSCAPE BOARD STYLE */
         #admit-container { display: none; margin-top: 20px; } 
-        .board-admit {
-            width: 1050px; 
-            height: 650px;
-            background: #fff;
-            border: 3px double #000;
-            padding: 20px;
-            margin: 0 auto;
-            box-sizing: border-box;
-            color: #000;
-        }
+        .board-admit { width: 1050px; height: 650px; background: #fff; border: 3px double #000; padding: 20px; margin: 0 auto; box-sizing: border-box; color: #000; }
         .inner-border { border: 1px solid #000; height: 100%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; }
-        
         .header-section { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-        .header-section h1 { margin: 0; font-size: 30px; font-family: 'Times New Roman', serif; text-transform: uppercase; }
+        .header-section h1 { margin: 0; font-size: 40px; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 5px; }
         .header-section .address { font-size: 14px; margin: 2px 0; }
         .header-section .test-title { font-size: 18px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
-
         .content-grid { display: grid; grid-template-columns: 1fr 200px; gap: 20px; flex-grow: 1; }
         .info-table { width: 100%; border-collapse: collapse; }
         .info-table td { border: 1px solid #000; padding: 10px; font-size: 16px; }
         .info-table .label { width: 35%; font-weight: bold; }
         .info-table .value { font-family: 'Courier New', Courier, monospace; }
-
-        .photo-box { border: 1px solid #000; height: 180px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 20px; }
-
-        /* Rules Section */
+        .photo-box { border: 1px solid #000; height: 180px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; }
         .rules-section { border-top: 1px dashed #000; margin-top: 20px; padding-top: 15px; }
-        .rules-section h4 { margin: 0 0 10px 0; text-decoration: underline; font-size: 15px; }
         .rules-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.5; }
-
         .footer-sigs { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; }
         .signature { border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: bold; }
-
-        @media print {
-            body { background: #fff; padding: 0; display: block; }
-            .no-print { display: none !important; }
-            #admit-container { display: block !important; }
-            .board-admit { border: 2px solid #000; margin: 0; width: 100%; height: auto; position: absolute; top: 0; left: 0; }
-        }
+        @media print { body { background: #fff; padding: 0; } .no-print { display: none !important; } #admit-container { display: block !important; } .board-admit { border: 2px solid #000; margin: 0; width: 100%; position: absolute; top: 0; left: 0; } }
     </style>
 </head>
 <body>
-
     <div class="no-print-section no-print" id="form-ui">
-        <h2>UBIQUE Cadet Care</h2>
-        <p style="font-size: 13px; margin-bottom: 20px;">Model Test 2026 - Registration Portal</p>
+        <h2>UBIQUE</h2>
+        <p style="font-size: 13px; margin-bottom: 20px;">Model Test 2026 - Official Portal</p>
         <form id="studentForm">
-            <div class="input-group">
-                <label>Student Name</label>
-                <input type="text" id="in-name" placeholder="Enter full name" required>
-            </div>
-            <div class="input-group">
-                <label>Class / Session</label>
-                <input type="text" id="in-class" placeholder="e.g., SSC 2026" required>
-            </div>
-            <div class="input-group">
-                <label>Mobile Number</label>
-                <input type="text" id="in-phone" placeholder="01XXXXXXXXX" required>
-            </div>
+            <div class="input-group"><label>Student Name</label><input type="text" id="in-name" placeholder="Full name" required></div>
+            <div class="input-group"><label>Class / Session</label><input type="text" id="in-class" placeholder="e.g., SSC 2026" required></div>
+            <div class="input-group"><label>Mobile Number</label><input type="text" id="in-phone" placeholder="01XXXXXXXXX" required></div>
             <button type="submit" class="submit-btn" id="subBtn">Generate Admit Card</button>
         </form>
     </div>
@@ -88,7 +53,6 @@
                     <p class="address">501, North Shahjahanpur, Dhaka-1217</p>
                     <p class="test-title">MODEL TEST ADMIT CARD - 2026</p>
                 </div>
-
                 <div class="content-grid">
                     <div class="info-side">
                         <table class="info-table">
@@ -98,63 +62,41 @@
                             <tr><td class="label">Roll Number</td><td class="value" id="out-roll" style="font-weight: bold; font-size: 20px;"></td></tr>
                             <tr><td class="label">Contact Reference</td><td class="value" id="out-phone"></td></tr>
                         </table>
-                        
                         <div class="rules-section">
-                            <h4>General Instructions for Candidates:</h4>
+                            <h4>General Instructions:</h4>
                             <ol class="rules-list">
-                                <li>Candidates must report to the examination center strictly on time. No delays will be allowed.</li>
-                                <li>The original Admit Card must be brought to the exam hall; otherwise, the candidate will not be allowed to sit for the exam.</li>
-                                <li>Mobile phones, smartwatches, or any electronic devices are strictly prohibited inside the examination center.</li>
-                                <li>Use only black or blue ballpoint pens. Necessary geometry box equipment is permitted.</li>
-                                <li>Any adoption of unfair means will lead to immediate expulsion of the candidate.</li>
-                                <li>This admit card must not be folded, mutilated, or tampered with in any way.</li>
+                                <li>Candidates must report to the examination center strictly on time.</li>
+                                <li>Admit Card is mandatory for entry.</li>
+                                <li>Electronic devices are strictly prohibited.</li>
+                                <li>Use only black or blue ballpoint pens.</li>
+                                <li>Unfair means will lead to immediate expulsion.</li>
                             </ol>
                         </div>
                     </div>
-                    
-                    <div class="photo-side">
-                        <div class="photo-box">Attested<br>Passport Size<br>Photograph</div>
-                    </div>
+                    <div class="photo-side"><div class="photo-box">Passport Size<br>Photograph</div></div>
                 </div>
-
-                <div class="footer-sigs">
-                    <div class="signature">Candidate's Signature</div>
-                    <div class="signature">Controller of Examinations</div>
-                </div>
+                <div class="footer-sigs"><div class="signature">Candidate's Signature</div><div class="signature">Controller of Examinations</div></div>
             </div>
         </div>
-        <div style="text-align:center; margin-top: 25px;">
-            <button class="no-print" style="padding: 15px 40px; background: #000; color: #fff; cursor: pointer; font-weight: bold; border-radius: 5px;" onclick="window.print()">PRINT NOW</button>
-        </div>
+        <div style="text-align:center; margin-top: 25px;"><button class="no-print" style="padding: 15px 40px; background: #000; color: #fff; cursor: pointer; font-weight: bold;" onclick="window.print()">PRINT NOW</button></div>
     </div>
 
     <script>
-        // Your specific Supabase Credentials
         const URL = 'https://osyaurhebprgfpvbamyr.supabase.co';
         const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zeWF1cmhlYnByZ2ZwdmJhbXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjkwNTMsImV4cCI6MjA5Mjk0NTA1M30.1rE1mhdTfmNpdwOUOMKUErASWXjcbP4jjj1vGh04HZ0';
         const sb = supabase.createClient(URL, KEY);
 
-        function genUID() { return Math.floor(1000000000 + Math.random() * 9000000000).toString(); }
-
         document.getElementById('studentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const b = document.getElementById('subBtn');
-            b.innerText = 'Processing...';
-            b.disabled = true;
-
+            const b = document.getElementById('subBtn'); b.innerText = 'Processing...'; b.disabled = true;
             const name = document.getElementById('in-name').value;
             const cls = document.getElementById('in-class').value;
             const phone = document.getElementById('in-phone').value;
-            const uid = genUID();
+            const uid = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
             try {
-                const { data, error } = await sb
-                    .from('model_test_students')
-                    .insert([{ student_name: name, class_name: cls, phone_number: phone, student_id: uid }])
-                    .select();
-
+                const { data, error } = await sb.from('model_test_students').insert([{ student_name: name, class_name: cls, phone_number: phone, student_id: uid }]).select();
                 if (error) throw error;
-
                 if (data && data.length > 0) {
                     const s = data[0];
                     document.getElementById('out-name').innerText = s.student_name.toUpperCase();
@@ -162,15 +104,10 @@
                     document.getElementById('out-id').innerText = s.student_id;
                     document.getElementById('out-roll').innerText = s.roll_number.toString().padStart(4, '0');
                     document.getElementById('out-phone').innerText = s.phone_number;
-
                     document.getElementById('form-ui').style.display = 'none';
                     document.getElementById('admit-container').style.display = 'block'; 
                 }
-            } catch (err) {
-                alert("Database Connection Error! Please refresh and try again.");
-                b.disabled = false;
-                b.innerText = 'Generate Admit Card';
-            }
+            } catch (err) { alert("Error! Please check network."); b.disabled = false; b.innerText = 'Generate Admit Card'; }
         });
     </script>
 </body>
