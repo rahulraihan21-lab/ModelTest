@@ -1,148 +1,175 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Entry - UBIQUE Cadet Care</title>
+    <title>Model Test Entry - UBIQUE Cadet Care</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* Modern UI Styles */
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .form-card { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
-        h2 { color: #1a1a1a; margin-bottom: 30px; border-bottom: 2px solid #1a1a1a; display: inline-block; padding-bottom: 5px; }
-        .group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; color: #444; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
-        button { width: 100%; padding: 15px; background: #1a1a1a; color: #fff; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #333; }
+        /* Core Styles */
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f0f0; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .no-print-section { background: #fff; padding: 35px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #000; margin-bottom: 25px; border-bottom: 2px solid #000; display: inline-block; }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
+        input { width: 100%; padding: 10px; border: 1px solid #000; border-radius: 4px; font-size: 15px; }
+        .submit-btn { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         /* ADMIT CARD - LANDSCAPE BOARD STYLE */
-        #admit-wrap { display: none; margin-top: 20px; }
-        .board-card {
-            width: 1000px; /* Landscape Width */
-            height: 600px; /* Landscape Height */
+        #admit-container { display: none; }
+        .board-admit {
+            width: 1050px; /* Standard Landscape */
+            height: 650px;
             background: #fff;
-            border: 2px solid #000;
-            padding: 10px;
+            border: 3px double #000;
+            padding: 20px;
             margin: 0 auto;
-            position: relative;
             box-sizing: border-box;
             color: #000;
         }
-        .board-inner { border: 1px solid #000; height: 100%; padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; }
-        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
-        .header h1 { margin: 0; font-size: 32px; font-family: 'Times New Roman', serif; letter-spacing: 2px; }
-        .header p { margin: 5px 0; font-size: 18px; font-weight: bold; }
+        .inner-border { border: 1px solid #000; height: 100%; padding: 25px; box-sizing: border-box; display: flex; flex-direction: column; }
         
-        .main-info { display: flex; justify-content: space-between; flex-grow: 1; }
-        .info-table { width: 70%; border-collapse: collapse; }
-        .info-table td { border: 1px solid #000; padding: 12px; font-size: 18px; font-family: 'Times New Roman', serif; }
-        .info-table td:first-child { width: 35%; font-weight: bold; }
-        
-        .photo-area { width: 150px; height: 180px; border: 1px solid #000; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; font-weight: bold; }
-        
-        .footer-sigs { display: flex; justify-content: space-between; margin-top: 50px; }
-        .sig { border-top: 1px solid #000; width: 220px; text-align: center; padding-top: 10px; font-size: 16px; font-weight: bold; }
+        .header-section { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+        .header-section h1 { margin: 0; font-size: 30px; font-family: 'Times New Roman', serif; text-transform: uppercase; }
+        .header-section .address { font-size: 14px; margin: 2px 0; }
+        .header-section .test-title { font-size: 18px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
+
+        .content-grid { display: grid; grid-template-columns: 1fr 200px; gap: 20px; flex-grow: 1; }
+        .info-table { width: 100%; border-collapse: collapse; }
+        .info-table td { border: 1px solid #000; padding: 10px; font-size: 16px; }
+        .info-table .label { width: 35%; font-weight: bold; }
+        .info-table .value { font-family: 'Courier New', Courier, monospace; }
+
+        .photo-box { border: 1px solid #000; height: 180px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 20px; }
+
+        /* Rules Section */
+        .rules-section { border-top: 1px dashed #000; margin-top: 20px; padding-top: 15px; }
+        .rules-section h4 { margin: 0 0 10px 0; text-decoration: underline; font-size: 15px; }
+        .rules-list { margin: 0; padding-left: 20px; font-size: 13px; line-height: 1.5; }
+
+        .footer-sigs { display: flex; justify-content: space-between; margin-top: auto; padding-top: 40px; }
+        .signature { border-top: 1px solid #000; width: 200px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: bold; }
 
         @media print {
-            body { background: #fff; padding: 0; }
+            body { background: #fff; padding: 0; display: block; }
             .no-print { display: none !important; }
-            #admit-wrap { display: block !important; }
-            .board-card { border: 2px solid #000; margin: 0; position: absolute; top: 0; left: 0; }
+            #admit-container { display: block !important; }
+            .board-admit { border: 2px solid #000; margin: 0; width: 100%; height: auto; position: absolute; top: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="form-card no-print" id="form-ui">
+    <div class="no-print-section no-print" id="form-ui">
         <h2>UBIQUE Cadet Care</h2>
-        <form id="regForm">
-            <div class="group">
-                <label>শিক্ষার্থীর নাম</label>
-                <input type="text" id="name" placeholder="Full Name" required>
+        <p style="font-size: 13px; margin-bottom: 20px;">Model Test 2026 - Registration Portal</p>
+        <form id="studentForm">
+            <div class="input-group">
+                <label>Student Name</label>
+                <input type="text" id="in-name" placeholder="Enter full name" required>
             </div>
-            <div class="group">
-                <label>ক্লাস / সেশন</label>
-                <input type="text" id="class" placeholder="Example: Class 6" required>
+            <div class="input-group">
+                <label>Class / Session</label>
+                <input type="text" id="in-class" placeholder="e.g., SSC 2026" required>
             </div>
-            <div class="group">
-                <label>মোবাইল নম্বর</label>
-                <input type="text" id="phone" placeholder="01XXXXXXXXX" required>
+            <div class="input-group">
+                <label>Mobile Number</label>
+                <input type="text" id="in-phone" placeholder="01XXXXXXXXX" required>
             </div>
-            <button type="submit" id="btn">অ্যাডমিট কার্ড জেনারেট করুন</button>
+            <button type="submit" class="submit-btn" id="subBtn">Generate Admit Card</button>
         </form>
     </div>
 
-    <div id="admit-wrap">
-        <div class="board-card">
-            <div class="board-inner">
-                <div class="header">
+    <div id="admit-container">
+        <div class="board-admit">
+            <div class="inner-border">
+                <div class="header-section">
                     <h1>UBIQUE CADET & DEFENCE ACADEMY</h1>
-                    <p>MODEL TEST ADMIT CARD - 2026</p>
+                    <p class="address">501, North Shahjahanpur, Dhaka-1217</p>
+                    <p class="test-title">MODEL TEST ADMIT CARD - 2026</p>
                 </div>
-                <div class="main-info">
-                    <table class="info-table">
-                        <tr><td>Candidate's Name</td><td id="res-name"></td></tr>
-                        <tr><td>Academic Class</td><td id="res-class"></td></tr>
-                        <tr><td>Candidate Unique ID</td><td id="res-id"></td></tr>
-                        <tr><td>Roll Number</td><td id="res-roll" style="font-weight: bold; font-size: 24px;"></td></tr>
-                        <tr><td>Phone Number</td><td id="res-phone"></td></tr>
-                    </table>
-                    <div class="photo-area">Paste Passport<br>Size Photo Here</div>
+
+                <div class="content-grid">
+                    <div class="info-side">
+                        <table class="info-table">
+                            <tr><td class="label">Candidate Name</td><td class="value" id="out-name"></td></tr>
+                            <tr><td class="label">Class / Session</td><td class="value" id="out-class"></td></tr>
+                            <tr><td class="label">Student ID</td><td class="value" id="out-id"></td></tr>
+                            <tr><td class="label">Roll Number</td><td class="value" id="out-roll" style="font-weight: bold; font-size: 20px;"></td></tr>
+                            <tr><td class="label">Contact Reference</td><td class="value" id="out-phone"></td></tr>
+                        </table>
+                        
+                        <div class="rules-section">
+                            <h4>General Instructions for Candidates:</h4>
+                            <ol class="rules-list">
+                                <li>Candidates must report to the examination center strictly on time. No delays will be allowed.</li>
+                                <li>The original Admit Card must be brought to the exam hall; otherwise, the candidate will not be allowed to sit for the exam.</li>
+                                <li>Mobile phones, smartwatches, or any electronic devices are strictly prohibited inside the examination center.</li>
+                                <li>Use only black or blue ballpoint pens. Necessary geometry box equipment is permitted.</li>
+                                <li>Any adoption of unfair means will lead to immediate expulsion of the candidate.</li>
+                                <li>This admit card must not be folded, mutilated, or tampered with in any way.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="photo-side">
+                        <div class="photo-box">Attested<br>Passport Size<br>Photograph</div>
+                    </div>
                 </div>
+
                 <div class="footer-sigs">
-                    <div class="sig">Candidate's Signature</div>
-                    <div class="sig">Controller of Examinations</div>
+                    <div class="signature">Candidate's Signature</div>
+                    <div class="signature">Controller of Examinations</div>
                 </div>
             </div>
         </div>
-        <div style="text-align:center; margin-top: 30px;">
-            <button class="no-print" style="width: 200px;" onclick="window.print()">PRINT ADMIT CARD</button>
+        <div style="text-align:center; margin-top: 25px;">
+            <button class="no-print" style="padding: 15px 40px; background: #000; color: #fff; cursor: pointer; font-weight: bold; border-radius: 5px;" onclick="window.print()">PRINT NOW</button>
         </div>
     </div>
 
     <script>
-        // Supabase Credentials
-        const S_URL = 'https://osyaurhebprgfpvbamyr.supabase.co';
-        const S_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zeWF1cmhlYnByZ2ZwdmJhbXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjkwNTMsImV4cCI6MjA5Mjk0NTA1M30.1rE1mhdTfmNpdwOUOMKUErASWXjcbP4jjj1vGh04HZ0';
-        const client = supabase.createClient(S_URL, S_KEY);
+        // Replace with your Supabase URL and Key
+        const URL = 'https://osyaurhebprgfpvbamyr.supabase.co';
+        const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zeWF1cmhlYnByZ2ZwdmJhbXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjkwNTMsImV4cCI6MjA5Mjk0NTA1M30.1rE1mhdTfmNpdwOUOMKUErASWXjcbP4jjj1vGh04HZ0';
+        const sb = supabase.createClient(URL, KEY);
 
-        function genID() { return Math.floor(1000000000 + Math.random() * 9000000000).toString(); }
+        function genUID() { return Math.floor(1000000000 + Math.random() * 9000000000).toString(); }
 
-        document.getElementById('regForm').addEventListener('submit', async (e) => {
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btn');
-            btn.innerText = 'অপেক্ষা করুন...';
-            btn.disabled = true;
+            const b = document.getElementById('subBtn');
+            b.innerText = 'Processing...';
+            b.disabled = true;
 
-            const name = document.getElementById('name').value;
-            const cls = document.getElementById('class').value;
-            const phone = document.getElementById('phone').value;
-            const id = genID();
+            const name = document.getElementById('in-name').value;
+            const cls = document.getElementById('in-class').value;
+            const phone = document.getElementById('in-phone').value;
+            const uid = genUID();
 
             try {
-                const { data, error } = await client
+                const { data, error } = await sb
                     .from('model_test_students')
-                    .insert([{ student_name: name, class_name: cls, phone_number: phone, student_id: id }])
+                    .insert([{ student_name: name, class_name: cls, phone_number: phone, student_id: uid }])
                     .select();
 
                 if (error) throw error;
 
                 if (data && data.length > 0) {
                     const s = data[0];
-                    document.getElementById('res-name').innerText = s.student_name.toUpperCase();
-                    document.getElementById('res-class').innerText = s.class_name.toUpperCase();
-                    document.getElementById('res-id').innerText = s.student_id;
-                    document.getElementById('res-roll').innerText = s.roll_number.toString().padStart(4, '0');
-                    document.getElementById('res-phone').innerText = s.phone_number;
+                    document.getElementById('out-name').innerText = s.student_name.toUpperCase();
+                    document.getElementById('out-class').innerText = s.class_name.toUpperCase();
+                    document.getElementById('out-id').innerText = s.student_id;
+                    document.getElementById('out-roll').innerText = s.roll_number.toString().padStart(4, '0');
+                    document.getElementById('out-phone').innerText = s.phone_number;
 
                     document.getElementById('form-ui').style.display = 'none';
-                    document.getElementById('admit-wrap').style.display = 'block';
+                    document.getElementById('admit-container').style.display = 'block';
                 }
             } catch (err) {
-                alert("Error connecting to Database!");
-                btn.disabled = false;
-                btn.innerText = 'অ্যাডমিট কার্ড জেনারেট করুন';
+                alert("Database Connection Error! Please check your keys or network.");
+                b.disabled = false;
+                b.innerText = 'Generate Admit Card';
             }
         });
     </script>
