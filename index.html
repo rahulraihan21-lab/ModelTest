@@ -16,7 +16,7 @@
         .submit-btn { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         /* ADMIT CARD - LANDSCAPE BOARD STYLE */
-        #admit-container { display: none; margin-top: 20px; } /* Fixed ID */
+        #admit-container { display: none; margin-top: 20px; } 
         .board-admit {
             width: 1050px; 
             height: 650px;
@@ -54,7 +54,7 @@
             body { background: #fff; padding: 0; display: block; }
             .no-print { display: none !important; }
             #admit-container { display: block !important; }
-            .board-admit { border: 2px solid #000; margin: 0; width: 100%; height: auto; position: absolute; top: 0; }
+            .board-admit { border: 2px solid #000; margin: 0; width: 100%; height: auto; position: absolute; top: 0; left: 0; }
         }
     </style>
 </head>
@@ -129,7 +129,7 @@
     </div>
 
     <script>
-        // Replace with your Supabase URL and Key
+        // Your specific Supabase Credentials
         const URL = 'https://osyaurhebprgfpvbamyr.supabase.co';
         const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zeWF1cmhlYnByZ2ZwdmJhbXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjkwNTMsImV4cCI6MjA5Mjk0NTA1M30.1rE1mhdTfmNpdwOUOMKUErASWXjcbP4jjj1vGh04HZ0';
         const sb = supabase.createClient(URL, KEY);
@@ -163,12 +163,11 @@
                     document.getElementById('out-roll').innerText = s.roll_number.toString().padStart(4, '0');
                     document.getElementById('out-phone').innerText = s.phone_number;
 
-                    // Fix: Hide form, Show Admit Card
                     document.getElementById('form-ui').style.display = 'none';
                     document.getElementById('admit-container').style.display = 'block'; 
                 }
             } catch (err) {
-                alert("Database Connection Error! Please check your keys or network.");
+                alert("Database Connection Error! Please refresh and try again.");
                 b.disabled = false;
                 b.innerText = 'Generate Admit Card';
             }
