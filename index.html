@@ -6,68 +6,60 @@
     <title>Model Test Entry - UBIQUE</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f0f0; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e2e8f0; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         .no-print-section { background: #fff; padding: 35px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         h2 { color: #000; margin-bottom: 25px; border-bottom: 2px solid #000; display: inline-block; }
         .input-group { margin-bottom: 15px; text-align: left; }
         label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 14px; }
-        input { width: 100%; padding: 10px; border: 1px solid #000; border-radius: 4px; font-size: 15px; }
+        input { width: 100%; padding: 10px; border: 1px solid #000; border-radius: 4px; font-size: 15px; box-sizing: border-box; }
         .submit-btn { width: 100%; padding: 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
-        #admit-container { display: none; width: 100%; } 
+        #admit-container { display: none; width: 100%; max-width: 800px; margin-top: 20px; background: #fff; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); } 
         
-        /* Updated Card Layout for Better Spacing */
+        /* ADMIT CARD - PORTRAIT PAGE, LANDSCAPE DESIGN */
         .board-admit { 
-            width: 1050px; 
-            height: auto; 
-            min-height: 550px; /* Reduced fixed height */
+            width: 100%; 
+            height: 480px; /* Fixed height for exactly half page */
             background: #fff; 
             border: 3px double #000; 
-            padding: 20px; 
-            margin: 0 auto; 
+            padding: 15px; 
             box-sizing: border-box; 
             color: #000; 
+            position: relative;
         }
-        .inner-border { 
-            border: 1px solid #000; 
-            height: 100%; 
-            padding: 25px; 
-            box-sizing: border-box; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        .header-section { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-        .header-section h1 { margin: 0; font-size: 40px; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 5px; }
-        .header-section .test-title { font-size: 18px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
+        .copy-type { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 2px 15px; font-size: 12px; font-weight: bold; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+        .inner-border { border: 1px solid #000; height: 100%; padding: 15px 20px; box-sizing: border-box; display: flex; flex-direction: column; }
+        .header-section { text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 15px; }
+        .header-section h1 { margin: 0; font-size: 32px; font-family: 'Times New Roman', serif; text-transform: uppercase; letter-spacing: 5px; }
+        .header-section .test-title { font-size: 16px; font-weight: bold; margin-top: 5px; text-decoration: underline; }
         
-        .content-grid { display: grid; grid-template-columns: 1fr 180px; gap: 20px; flex-grow: 1; }
+        .content-grid { display: grid; grid-template-columns: 1fr 140px; gap: 15px; flex-grow: 1; }
         .info-table { width: 100%; border-collapse: collapse; }
-        .info-table td { border: 1px solid #000; padding: 10px; font-size: 17px; }
+        .info-table td { border: 1px solid #000; padding: 6px 10px; font-size: 14px; }
         .info-table .label { font-weight: bold; width: 35%; }
-        .info-table .value { font-family: 'Courier New', Courier, monospace; }
+        .info-table .value { font-family: 'Courier New', Courier, monospace; font-weight: bold; }
         
-        .photo-side { display: flex; flex-direction: column; }
-        .photo-box { border: 1px solid #000; height: 200px; width: 160px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: bold; }
+        .photo-side { display: flex; flex-direction: column; align-items: flex-end; }
+        .photo-box { border: 1px solid #000; height: 150px; width: 130px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 11px; font-weight: bold; }
         
-        /* Updated Rules Section with Box */
-        .rules-section { 
-            border: 1px solid #000; 
-            margin-top: 25px; 
-            padding: 15px 20px; 
-            background-color: #fafafa;
-        }
-        .rules-section h4 { margin: 0 0 10px 0; text-decoration: underline; font-size: 15px; }
-        .rules-list { margin: 0; padding-left: 20px; font-size: 13.5px; line-height: 1.8; }
+        .rules-section { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc; }
+        .rules-section h4 { margin: 0 0 5px 0; text-decoration: underline; font-size: 13px; }
+        .rules-list { margin: 0; padding-left: 20px; font-size: 11px; line-height: 1.5; }
 
-        .footer-sigs { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 10px; }
-        .signature { border-top: 1px solid #000; width: 220px; text-align: center; padding-top: 5px; font-size: 14px; font-weight: bold; }
+        .footer-sigs { display: flex; justify-content: space-between; margin-top: auto; padding-top: 30px; }
+        .signature { border-top: 1px solid #000; width: 180px; text-align: center; padding-top: 5px; font-size: 12px; font-weight: bold; }
+
+        /* SCISSORS CUT LINE */
+        .cut-line { border-top: 2px dashed #000; margin: 25px 0; text-align: center; position: relative; }
+        .cut-line::after { content: '✂ Cut Here'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 15px; font-size: 14px; font-weight: bold; }
 
         @media print {
-            @page { size: landscape; margin: 0; }
+            @page { size: A4 portrait; margin: 10mm; }
             body { background: #fff; padding: 0; display: block; }
             .no-print { display: none !important; }
-            #admit-container { display: block !important; margin: 0; padding: 0; }
-            .board-admit { border: 2px solid #000; margin: 0; width: 100%; position: absolute; top: 0; left: 0; }
+            #admit-container { display: block !important; margin: 0; padding: 0; max-width: 100%; box-shadow: none; }
+            .board-admit { border: 2px solid #000; height: 135mm; } /* Exactly half of A4 page */
+            .cut-line { margin: 10mm 0; }
         }
     </style>
 </head>
@@ -77,10 +69,7 @@
         <h2>UBIQUE</h2>
         <p style="font-size: 13px; margin-bottom: 20px;">Model Test 2026 - Official Portal</p>
         <form id="studentForm">
-            <div class="input-group">
-                <label>Roll Number</label>
-                <input type="text" id="in-roll" placeholder="e.g., 202601" required>
-            </div>
+            <div class="input-group"><label>Roll Number</label><input type="text" id="in-roll" placeholder="e.g., 202601" required></div>
             <div class="input-group"><label>Student Name</label><input type="text" id="in-name" placeholder="Full name" required></div>
             <div class="input-group"><label>Class / Session</label><input type="text" id="in-class" placeholder="CLASS 10" required></div>
             <div class="input-group"><label>Mobile Number</label><input type="text" id="in-phone" placeholder="01XXXXXXXXX" required></div>
@@ -89,75 +78,84 @@
     </div>
 
     <div id="admit-container">
-        <div class="board-admit">
-            <div class="inner-border">
-                <div class="header-section">
-                    <h1>UBIQUE</h1>
-                    <p style="margin: 2px 0;">501, North Shahjahanpur, Dhaka-1217</p>
-                    <p class="test-title">MODEL TEST ADMIT CARD - 2026</p>
-                </div>
-                <div class="content-grid">
-                    <div class="info-side">
-                        <table class="info-table">
-                            <tr><td class="label">Candidate Name</td><td class="value" id="out-name"></td></tr>
-                            <tr><td class="label">Class / Session</td><td class="value" id="out-class"></td></tr>
-                            <tr><td class="label">Student ID</td><td class="value" id="out-id"></td></tr>
-                            <tr><td class="label">Roll Number</td><td class="value" id="out-roll" style="font-weight: bold; font-size: 20px;"></td></tr>
-                        </table>
-                        
-                        <div class="rules-section">
-                            <h4>General Instructions for Candidates:</h4>
-                            <ol class="rules-list">
-                                <li>Candidates must report to the examination center strictly on time. No delays will be allowed.</li>
-                                <li>The original Admit Card must be brought to the exam hall.</li>
-                                <li>Mobile phones, smartwatches, or any electronic devices are strictly prohibited.</li>
-                                <li>Use only black or blue ballpoint pens.</li>
-                                <li>Any adoption of unfair means will lead to immediate expulsion.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="photo-side"><div class="photo-box">Passport Size<br>Photo</div></div>
-                </div>
-                <div class="footer-sigs">
-                    <div class="signature">Candidate's Signature</div>
-                    <div class="signature">Controller of Examinations</div>
-                </div>
-            </div>
+        <div id="print-content"></div>
+        <div style="text-align:center; margin-top: 25px;">
+            <button class="no-print" style="padding: 15px 40px; background: #000; color: #fff; cursor: pointer; font-weight: bold; border-radius: 5px; font-size: 16px;" onclick="window.print()">🖨️ PRINT ADMIT CARD</button>
         </div>
-        <div style="text-align:center; margin-top: 25px;"><button class="no-print" style="padding: 15px 40px; background: #000; color: #fff; cursor: pointer; font-weight: bold; border-radius: 5px;" onclick="window.print()">PRINT NOW</button></div>
     </div>
 
     <script>
         const sb = supabase.createClient('https://osyaurhebprgfpvbamyr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zeWF1cmhlYnByZ2ZwdmJhbXlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNjkwNTMsImV4cCI6MjA5Mjk0NTA1M30.1rE1mhdTfmNpdwOUOMKUErASWXjcbP4jjj1vGh04HZ0');
 
+        function generateCardHTML(name, cls, id, roll, type) {
+            return `
+            <div class="board-admit">
+                <div class="copy-type">${type}</div>
+                <div class="inner-border">
+                    <div class="header-section">
+                        <h1>UBIQUE</h1>
+                        <p style="margin: 2px 0; font-size: 13px;">501, North Shahjahanpur, Dhaka-1217</p>
+                        <p class="test-title">MODEL TEST ADMIT CARD - 2026</p>
+                    </div>
+                    <div class="content-grid">
+                        <div class="info-side">
+                            <table class="info-table">
+                                <tr><td class="label">Candidate Name</td><td class="value">${name.toUpperCase()}</td></tr>
+                                <tr><td class="label">Class / Session</td><td class="value">${cls.toUpperCase()}</td></tr>
+                                <tr><td class="label">Student ID</td><td class="value">${id}</td></tr>
+                                <tr><td class="label">Roll Number</td><td class="value" style="font-size: 18px;">${roll}</td></tr>
+                            </table>
+                            <div class="rules-section">
+                                <h4>General Instructions:</h4>
+                                <ol class="rules-list">
+                                    <li>Report to the examination center strictly on time. No delays allowed.</li>
+                                    <li>The original Admit Card must be brought to the exam hall.</li>
+                                    <li>Mobile phones or any electronic devices are strictly prohibited.</li>
+                                    <li>Use only black or blue ballpoint pens.</li>
+                                    <li>Any adoption of unfair means will lead to immediate expulsion.</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="photo-side"><div class="photo-box">Passport Size<br>Photo</div></div>
+                    </div>
+                    <div class="footer-sigs">
+                        <div class="signature">Candidate's Signature</div>
+                        <div class="signature">Controller of Examinations</div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
         document.getElementById('studentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            document.getElementById('subBtn').disabled = true;
-            document.getElementById('subBtn').innerText = 'Processing...';
+            const btn = document.getElementById('subBtn');
+            btn.disabled = true;
+            btn.innerText = 'Processing...';
             
             const uid = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+            const roll = document.getElementById('in-roll').value;
+            const name = document.getElementById('in-name').value;
+            const cls = document.getElementById('in-class').value;
+            const phone = document.getElementById('in-phone').value;
 
             const { data, error } = await sb.from('model_test_students').insert([{ 
-                roll_number: document.getElementById('in-roll').value, 
-                student_name: document.getElementById('in-name').value, 
-                class_name: document.getElementById('in-class').value, 
-                phone_number: document.getElementById('in-phone').value, 
-                student_id: uid 
+                roll_number: roll, student_name: name, class_name: cls, phone_number: phone, student_id: uid 
             }]).select();
 
             if (data && data.length > 0) {
-                const s = data[0];
-                document.getElementById('out-name').innerText = s.student_name.toUpperCase();
-                document.getElementById('out-class').innerText = s.class_name.toUpperCase();
-                document.getElementById('out-id').innerText = s.student_id;
-                document.getElementById('out-roll').innerText = s.roll_number;
+                // Generate Student Copy & Office Copy with a cut line
+                const studentCopy = generateCardHTML(name, cls, uid, roll, 'CANDIDATE COPY');
+                const cutLine = `<div class="cut-line"></div>`;
+                const officeCopy = generateCardHTML(name, cls, uid, roll, 'OFFICE COPY');
+
+                document.getElementById('print-content').innerHTML = studentCopy + cutLine + officeCopy;
                 
                 document.getElementById('form-ui').style.display = 'none';
                 document.getElementById('admit-container').style.display = 'block'; 
             } else { 
                 alert("Error! Please try again."); 
-                document.getElementById('subBtn').disabled = false;
-                document.getElementById('subBtn').innerText = 'Generate Admit Card';
+                btn.disabled = false;
+                btn.innerText = 'Generate Admit Card';
             }
         });
     </script>
